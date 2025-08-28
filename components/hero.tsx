@@ -9,10 +9,11 @@ export function Hero() {
         <h1 className={`${sansation.className} text-5xl font-mono`}>KNOW REAL</h1>
       </div>
       <p className="text-xl lg:text-2xl !leading-tight mx-auto max-w-xl text-center">
-        Get to know{" "}
+        <code>Get to{"  "}
         <span className="font-bold">
-          <code>Reality</code>
-        </span>.
+          know
+        </span>
+        {" "}reality</code>.
       </p>
       <div className="w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/10 to-transparent my-8" />
     </div>
