@@ -2,10 +2,13 @@ import { Hero } from "@/components/hero";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { ConnectSupabaseSteps } from "@/components/tutorial/connect-supabase-steps";
 import { SignUpUserSteps } from "@/components/tutorial/sign-up-user-steps";
+import PublicNavbar from "@/components/ui/public-navbar";
 import { hasEnvVars } from "@/lib/utils";
 
 export default function Home() {
   return (
+    <>
+    <PublicNavbar />
     <main className="min-h-screen flex flex-col items-center">
       <div className="flex-1 w-full flex flex-col gap-20 items-center">
         <div className="flex-1 flex flex-col gap-20 max-w-5xl p-5 pt-36">
@@ -31,6 +34,6 @@ export default function Home() {
           <ThemeSwitcher />
         </footer>
       </div>
-    </main>
+    </main></>
   );
 }
