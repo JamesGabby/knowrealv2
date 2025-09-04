@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { LogoutButton } from "../logout-button"
-import { Home, MoonStar, Star, UsersRound, Heart } from "lucide-react"
+import { Home, MoonStar, Brain, UsersRound, Heart } from "lucide-react"
 import { Sansation } from "next/font/google"
 // import "../../app/globals.css";
 const sansation = Sansation({ weight: '700', subsets: ['latin'], fallback: ['mono']});
@@ -11,7 +11,7 @@ const sansation = Sansation({ weight: '700', subsets: ['latin'], fallback: ['mon
 const navItems = [
   { href: "/protected", label: "Home", icon: Home },
   { href: "/protected/dreams", label: "Dreams", icon: MoonStar },
-  { href: "/protected/meditation", label: "Meditation", icon: Heart },
+  { href: "/protected/meditation", label: "Meditation", icon: Brain },
   { href: "/protected/obe", label: "OBE", icon: UsersRound },
 ]
 
