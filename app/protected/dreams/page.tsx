@@ -79,27 +79,17 @@ export default async function Instruments() {
                     <span className="text-xs text-muted-foreground">—</span>
                 )}
                 </div>
-                {/* {dream.emotions && dream.emotions.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {dream.emotions.map((emotion, index) => (
-                    <Badge key={index} variant="secondary">
-                      {emotion}
-                    </Badge>
-                  ))}
-                </div>
-                )} */}
-
-
+                
                 {dream.notes && (
                 <p className="text-xs text-muted-foreground mt-2">
                 Notes: {dream.notes}
                 </p>
                 )}
-                </CardContent>
-                </Card>
-                ))}
-                </div>
-                </div>
-                </div>
-);
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
