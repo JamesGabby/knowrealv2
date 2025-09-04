@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 
-export default async function Instruments() {
+export default async function Dreams() {
   const supabase = await createClient();
 
   // Get the logged-in user

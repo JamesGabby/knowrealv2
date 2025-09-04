@@ -3,9 +3,10 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { LogoutButton } from "../logout-button"
-import { Home, MoonStar, Brain, UsersRound, Heart } from "lucide-react"
+import { Home, MoonStar, Brain, UsersRound, Info } from "lucide-react"
 import { Sansation } from "next/font/google"
-// import "../../app/globals.css";
+import useWindowWidth from "../../hooks/use-window-width";
+
 const sansation = Sansation({ weight: '700', subsets: ['latin'], fallback: ['mono']});
 
 const navItems = [
@@ -13,10 +14,12 @@ const navItems = [
   { href: "/protected/dreams", label: "Dreams", icon: MoonStar },
   { href: "/protected/meditation", label: "Meditation", icon: Brain },
   { href: "/protected/obe", label: "OBE", icon: UsersRound },
+  { href: "/protected/info", label: "Info", icon: Info },
 ]
 
 export default function DashboardNavbar() {
   const pathname = usePathname()
+  const width = useWindowWidth();
 
   return (
     <nav className="flex items-center justify-between px-6 py-3 bg-black border-b border-gray-800 shadow-sm">
@@ -38,7 +41,7 @@ export default function DashboardNavbar() {
               }`}
             >
               <Icon className="w-4 h-4" />
-              <span>{label}</span>
+              <span>{width && width < 710 ? '' : label}</span>
             </Link>
           )
         })}
