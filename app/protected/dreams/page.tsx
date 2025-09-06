@@ -28,27 +28,49 @@ export default async function Dreams() {
     return <p>Error loading dreams</p>;
   }
 
+  type Mood = 'positive' | 'negative' | 'neutral';
+
+  function dreamMood(mood: Mood) {
+    if (mood == 'positive') {
+      return 'bg-green-500'
+    } else if (mood == 'negative') {
+      return 'bg-red-500'
+    } else {
+      return 'bg-blue-300'
+    }
+  }
+
   return (
-    <div className="flex-1 w-full flex flex-col gap-12">
+    <div className="flex-1 w-full flex flex-col gap-12 px-4 sm:px-6 lg:px-12">
       <div className="flex flex-col gap-2 items-start">
         <h2 className="font-bold text-2xl mb-4 mt-10">Your Dreams</h2>
-        <div className="flex flex-col gap-6 w-full">
+
+        {/* Responsive grid layout */}
+        <div className="grid gap-6 w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-2">
           {dreams.map((dream) => (
             <Card
               key={dream.id}
-              className="rounded-md border bg-background text-foreground shadow-sm"
+              className="rounded-md border bg-background text-foreground shadow-sm flex flex-col"
             >
               <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                   <CardTitle className="text-lg font-semibold">
                     {dream.title}
                   </CardTitle>
-                  <div className="flex gap-2">
-                    <Badge variant="outline" className="capitalize">
-                      {dream.mood}
+                  <div className="flex flex-wrap gap-2">
+                    {/* Mood Badge */}
+                    <Badge className={`relative inline-flex items-center justify-center p-[3px] overflow-hidden font-medium rounded-lg ${dreamMood(dream.mood)} pointer-events-none`}>
+                      <span className="relative px-3 py-1 text-xs rounded-md bg-background text-foreground capitalize">
+                        {dream.mood}
+                      </span>
                     </Badge>
+
                     {dream.lucidity && (
-                      <Badge className="bg-blue-100 text-blue-700">Lucid</Badge>
+                      <Badge className="relative inline-flex items-center justify-center p-[3px] overflow-hidden font-medium rounded-lg bg-[length:300%_300%] bg-gradient-to-r from-pink-500 via-yellow-500 to-cyan-500 animate-gradient-border">
+                        <span className="relative px-3 py-1 rounded-md bg-gray-900 text-white">
+                          Lucid
+                        </span>
+                      </Badge>
                     )}
                   </div>
                 </div>
@@ -57,7 +79,7 @@ export default async function Dreams() {
                 </p>
               </CardHeader>
 
-              <CardContent>
+              <CardContent className="flex-1 flex flex-col justify-between">
                 <p className="text-sm leading-relaxed text-foreground">
                   {dream.content}
                 </p>
@@ -85,17 +107,19 @@ export default async function Dreams() {
                     <span className="text-xs text-muted-foreground">—</span>
                   )}
                 </div>
-                
+
                 {dream.notes && (
-                <p className="text-xs text-muted-foreground mt-2">
-                Notes: {dream.notes}
-                </p>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Notes: {dream.notes}
+                  </p>
                 )}
               </CardContent>
             </Card>
           ))}
         </div>
       </div>
+      {/* Debug JSON - hide on small screens */}
+      <pre className="hidden lg:block">{JSON.stringify(dreams, null, 2)}</pre>
     </div>
   );
 }
