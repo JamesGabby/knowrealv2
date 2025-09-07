@@ -22,7 +22,7 @@ export default function DashboardNavbar() {
   const width = useWindowWidth();
 
   return (
-    <nav className="flex items-center justify-between px-6 py-3 bg-black border-b border-gray-800 shadow-sm">
+    <nav className="flex items-center justify-between px-6 py-3 border-b shadow-sm">
       {/* Left: Logo */}
       <div className={"flex items-center space-x-2"}>
         <Link href={"/"} className={`${sansation.className}`}>KNOW REAL</Link>
@@ -37,7 +37,7 @@ export default function DashboardNavbar() {
               key={href}
               href={href}
               className={`flex items-center space-x-1 text-sm font-medium transition-colors ${
-                isActive ? "text-blue-400" : "text-gray-300 hover:text-gray-400"
+                isActive ? "text-blue-400" : "hover:text-gray-300"
               }`}
             >
               <Icon className="w-4 h-4" />
