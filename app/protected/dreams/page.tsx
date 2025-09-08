@@ -3,16 +3,23 @@ import { redirect } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
-import Link from "next/link";
 import SearchBox from '@/components/search-box';
+import LucidSwitch from '@/components/lucid-switch';
+import Pagination from '@/components/pagination';
 
 // Add SearchParams type
 type DreamsProps = {
-  searchParams: { page?: string; q?: string }
+  searchParams: { page?: string; q?: string; lucid?: string }
 };
 
 export default async function Dreams({ searchParams }: DreamsProps) {
   const supabase = await createClient();
+
+  const params = await searchParams;
+
+  const lucid = params.lucid === "true";
+  const query = params.q?.trim() ?? "";
+  const page = parseInt(params.page ?? "1", 10);
 
   // Get the logged-in user
   const {
@@ -25,13 +32,9 @@ export default async function Dreams({ searchParams }: DreamsProps) {
   }
 
   // Pagination setup
-  const page = parseInt(searchParams.page ?? "1", 10);
   const pageSize = 6;
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;
-
-  // Search setup
-  const query = searchParams.q?.trim() ?? "";
 
   let supabaseQuery = supabase
     .from("dreams")
@@ -43,6 +46,11 @@ export default async function Dreams({ searchParams }: DreamsProps) {
     supabaseQuery = supabaseQuery.or(
       `title.ilike.%${query}%,content.ilike.%${query}%`
     );
+  }
+
+  // ✅ use the normalized boolean
+  if (lucid) {
+    supabaseQuery = supabaseQuery.eq("lucidity", true);
   }
 
   const { data: dreams, error: dreamsError, count } = await supabaseQuery.range(from, to);
@@ -66,9 +74,10 @@ export default async function Dreams({ searchParams }: DreamsProps) {
       <div className="flex flex-col gap-2 items-start">
         <h2 className="font-bold text-2xl mb-4 mt-10">Your Dreams</h2>
 
-        {/* 🔎 Search Bar */}
-        <div className="w-full mb-6">
+        {/* 🔎 Search Bar + Lucid Filter */}
+        <div className="w-full mb-6 flex flex-col sm:flex-row gap-6 sm:items-center sm:justify-between">
           <SearchBox />
+          <LucidSwitch />
         </div>
 
         {/* Grid of dreams */}
@@ -151,39 +160,12 @@ export default async function Dreams({ searchParams }: DreamsProps) {
 
       {/* 🔄 Pagination Controls */}
       {totalPages > 1 && (
-        <div className="flex justify-center gap-2 mt-8">
-          {page > 1 && (
-            <Link
-              href={`?q=${encodeURIComponent(query)}&page=${page - 1}`}
-              className="px-3 py-2 border rounded-md hover:bg-accent"
-            >
-              Previous
-            </Link>
-          )}
-
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-            <Link
-              key={p}
-              href={`?q=${encodeURIComponent(query)}&page=${p}`}
-              className={`px-3 py-2 border rounded-md ${
-                p === page
-                  ? "bg-primary text-primary-foreground"
-                  : "hover:bg-accent"
-              }`}
-            >
-              {p}
-            </Link>
-          ))}
-
-          {page < totalPages && (
-            <Link
-              href={`?q=${encodeURIComponent(query)}&page=${page + 1}`}
-              className="px-3 py-2 border rounded-md hover:bg-accent"
-            >
-              Next
-            </Link>
-          )}
-        </div>
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          query={query}
+          lucid={lucid}  // ✅ normalize before passing
+        />
       )}
     </div>
   );
