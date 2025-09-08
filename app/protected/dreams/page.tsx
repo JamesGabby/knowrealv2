@@ -7,6 +7,9 @@ import SearchBox from '@/components/search-box';
 import LucidSwitch from '@/components/lucid-switch';
 import Pagination from '@/components/pagination';
 import Footer from '@/components/ui/footer';
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Plus, PlusCircle, PlusSquare } from 'lucide-react';
 
 // Add SearchParams type
 type DreamsProps = {
@@ -75,10 +78,16 @@ export default async function Dreams({ searchParams }: DreamsProps) {
       <div className="flex flex-col gap-2 items-start">
         <h2 className="font-bold text-2xl mb-4 mt-10">Your Dreams</h2>
 
-        {/* 🔎 Search Bar + Lucid Filter */}
+        {/* 🔎 Search Bar + Lucid Filter + Add Dream */}
         <div className="w-full mb-6 flex flex-col sm:flex-row gap-6 sm:items-center sm:justify-between">
-          <SearchBox />
-          <LucidSwitch />
+          <div className="flex flex-col sm:flex-row gap-6 sm:items-center w-full">
+            <SearchBox />
+            <Link href="dreams/create">
+              <Button><Plus /></Button>
+            </Link>
+            <LucidSwitch />
+          </div>
+          
         </div>
 
         {/* Grid of dreams */}

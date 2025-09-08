@@ -6,6 +6,7 @@ import { LogoutButton } from "../logout-button"
 import { Home, MoonStar, Brain, UsersRound, Info } from "lucide-react"
 import { Sansation } from "next/font/google"
 import useWindowWidth from "../../hooks/use-window-width";
+import path from "path"
 
 const sansation = Sansation({ weight: '700', subsets: ['latin'], fallback: ['mono']});
 
@@ -31,7 +32,7 @@ export default function DashboardNavbar() {
       {/* Middle: Nav links */}
       <div className="flex items-center space-x-6">
         {navItems.map(({ href, label, icon: Icon }) => {
-          const isActive = pathname === href
+          const isActive = href === pathname || href+'/create' === pathname
           return (
             <Link
               key={href}
