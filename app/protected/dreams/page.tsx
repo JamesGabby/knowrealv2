@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import SearchBox from '@/components/search-box';
 import LucidSwitch from '@/components/lucid-switch';
 import Pagination from '@/components/pagination';
+import Footer from '@/components/ui/footer';
 
 // Add SearchParams type
 type DreamsProps = {
@@ -44,7 +45,7 @@ export default async function Dreams({ searchParams }: DreamsProps) {
 
   if (query) {
     supabaseQuery = supabaseQuery.or(
-      `title.ilike.%${query}%,content.ilike.%${query}%`
+      `title.ilike.%${query}%,content.ilike.%${query}%,notes.ilike.%${query}%`
     );
   }
 
@@ -167,6 +168,7 @@ export default async function Dreams({ searchParams }: DreamsProps) {
           lucid={lucid}  // ✅ normalize before passing
         />
       )}
+      <Footer />
     </div>
   );
 }
