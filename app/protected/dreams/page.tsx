@@ -9,9 +9,20 @@ import Pagination from '@/components/pagination';
 import Footer from '@/components/ui/footer';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Plus, PlusCircle, PlusSquare } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
+import { deleteDream } from '@/actions/delete-dream';
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 
-// Add SearchParams type
 type DreamsProps = {
   searchParams: { page?: string; q?: string; lucid?: string }
 };
@@ -25,7 +36,6 @@ export default async function Dreams({ searchParams }: DreamsProps) {
   const query = params.q?.trim() ?? "";
   const page = parseInt(params.page ?? "1", 10);
 
-  // Get the logged-in user
   const {
     data: { user },
     error: userError,
@@ -35,7 +45,6 @@ export default async function Dreams({ searchParams }: DreamsProps) {
     redirect("/auth/login");
   }
 
-  // Pagination setup
   const pageSize = 6;
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;
@@ -52,7 +61,6 @@ export default async function Dreams({ searchParams }: DreamsProps) {
     );
   }
 
-  // ✅ use the normalized boolean
   if (lucid) {
     supabaseQuery = supabaseQuery.eq("lucidity", true);
   }
@@ -68,9 +76,9 @@ export default async function Dreams({ searchParams }: DreamsProps) {
 
   type Mood = 'positive' | 'negative' | 'neutral';
   function dreamMood(mood: Mood) {
-    if (mood == 'positive') return 'bg-green-500'
-    if (mood == 'negative') return 'bg-red-500'
-    return 'bg-blue-300'
+    if (mood == 'positive') return 'bg-green-500';
+    if (mood == 'negative') return 'bg-red-500';
+    return 'bg-blue-300';
   }
 
   return (
@@ -87,7 +95,6 @@ export default async function Dreams({ searchParams }: DreamsProps) {
             </Link>
             <LucidSwitch />
           </div>
-          
         </div>
 
         {/* Grid of dreams */}
@@ -103,22 +110,58 @@ export default async function Dreams({ searchParams }: DreamsProps) {
                     <CardTitle className="text-lg font-semibold">
                       {dream.title}
                     </CardTitle>
-                    <div className="flex flex-wrap gap-2">
-                      <Badge
-                        className={`relative inline-flex items-center justify-center p-[3px] overflow-hidden font-medium rounded-lg ${dreamMood(dream.mood)} pointer-events-none`}
-                      >
-                        <span className="relative px-3 py-1 text-xs rounded-md bg-background text-foreground capitalize">
-                          {dream.mood}
-                        </span>
-                      </Badge>
 
-                      {dream.lucidity && (
-                        <Badge className="relative inline-flex items-center justify-center p-[3px] overflow-hidden font-medium rounded-lg bg-[length:300%_300%] bg-gradient-to-r from-pink-500 via-yellow-500 to-cyan-500 animate-gradient-border">
-                          <span className="relative px-3 py-1 rounded-md bg-gray-900 text-white">
-                            Lucid
+                    <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap gap-2">
+                        <Badge
+                          className={`relative inline-flex items-center justify-center p-[3px] overflow-hidden font-medium rounded-lg ${dreamMood(dream.mood)} pointer-events-none`}
+                        >
+                          <span className="relative px-3 py-1 text-xs rounded-md bg-background text-foreground capitalize">
+                            {dream.mood}
                           </span>
                         </Badge>
-                      )}
+
+                        {dream.lucidity && (
+                          <Badge className="relative inline-flex items-center justify-center p-[3px] overflow-hidden font-medium rounded-lg bg-[length:300%_300%] bg-gradient-to-r from-pink-500 via-yellow-500 to-cyan-500 animate-gradient-border">
+                            <span className="relative px-3 py-1 rounded-md bg-gray-900 text-white">
+                              Lucid
+                            </span>
+                          </Badge>
+                        )}
+                      </div>
+
+                      {/* 🗑️ Delete Dream Button */}
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="text-red-500 hover:text-red-700"
+                          >
+                            <Trash2 size={16} />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Delete this dream?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This action cannot be undone. This will permanently
+                              delete your dream from our database.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <form action={deleteDream.bind(null, dream.id)}>
+                              <AlertDialogAction
+                                type="submit"
+                                className="bg-red-600 text-white hover:bg-red-700"
+                              >
+                                Delete
+                              </AlertDialogAction>
+                            </form>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </div>
                   </div>
                   <p className="text-xs text-muted-foreground">
@@ -174,7 +217,7 @@ export default async function Dreams({ searchParams }: DreamsProps) {
           page={page}
           totalPages={totalPages}
           query={query}
-          lucid={lucid}  // ✅ normalize before passing
+          lucid={lucid}
         />
       )}
       <Footer />
