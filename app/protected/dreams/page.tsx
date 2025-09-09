@@ -10,7 +10,7 @@ import Footer from '@/components/ui/footer';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Plus, Trash2 } from 'lucide-react';
-import { deleteDream } from '@/actions/delete-dream';
+import { deleteDream } from '@/app/actions/delete-dream';
 import {
   AlertDialog,
   AlertDialogTrigger,
