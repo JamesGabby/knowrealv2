@@ -65,9 +65,43 @@ export default {
           "75%": { backgroundPosition: "0% 100%" },
           "100%": { backgroundPosition: "0% 0%" },
         },
+        glow: {
+          "0%, 100%": {
+            textShadow:
+              "0 0 8px rgba(255,255,255,0.6), 0 0 20px rgba(160,196,255,0.4)",
+          },
+          "50%": {
+            textShadow:
+              "0 0 16px rgba(255,255,255,0.9), 0 0 32px rgba(160,196,255,0.7)",
+          },
+        },
+        "button-glow": {
+          "0%": {
+            boxShadow:
+              "0 0 8px rgba(160,196,255,0.4), 0 0 16px rgba(160,196,255,0.3)",
+          },
+          "25%": {
+            boxShadow:
+              "0 0 10px rgba(255,202,212,0.5), 0 0 20px rgba(255,202,212,0.4)",
+          },
+          "50%": {
+            boxShadow:
+              "0 0 12px rgba(200,160,255,0.6), 0 0 24px rgba(200,160,255,0.5)",
+          },
+          "75%": {
+            boxShadow:
+              "0 0 10px rgba(255,180,220,0.5), 0 0 20px rgba(255,180,220,0.4)",
+          },
+          "100%": {
+            boxShadow:
+              "0 0 8px rgba(160,196,255,0.4), 0 0 16px rgba(160,196,255,0.3)",
+          },
+        },
       },
       animation: {
         "gradient-border": "gradient-border 6s linear infinite",
+        glow: "glow 6s ease-in-out infinite", // synced timing
+        "button-glow": "button-glow 6s ease-in-out infinite", // synced timing
       },
     },
   },
