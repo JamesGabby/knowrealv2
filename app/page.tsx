@@ -3,13 +3,19 @@ import { ConnectSupabaseSteps } from "@/components/tutorial/connect-supabase-ste
 import { SignUpUserSteps } from "@/components/tutorial/sign-up-user-steps";
 import Footer from "@/components/ui/footer";
 import PublicNavbar from "@/components/ui/public-navbar";
+import { createClient } from "@/lib/supabase/server";
 import { hasEnvVars } from "@/lib/utils";
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
   return (
     <>
       <PublicNavbar />
-      <Hero />
+      <Hero data={user} />
       <main className="min-h-screen flex flex-col items-center">
         <div className="flex-1 w-full flex flex-col gap-20 items-center">
           <div className="flex-1 flex flex-col gap-20 max-w-5xl p-5 pt-36">

@@ -86,11 +86,20 @@ function CameraController() {
 }
 
 export function Hero({ data }: { data?: any }) {
+  console.log(data);
   return (
     <div className="relative flex flex-col items-center justify-center h-screen w-full overflow-hidden">
       {/* 🌌 Galaxy Background */}
       <Canvas className="absolute inset-0" camera={{ position: [0, 0, 1] }}>
-        <CameraController />
+        <CameraController /> 
+        <StarLayer
+          count={10000}
+          spread={300}
+          size={0.3}
+          baseSpeed={0.01}
+          colorA="#a0c4ff"
+          colorB="#ffcad4"
+        />
         <StarLayer
           count={5000}
           spread={300}
@@ -110,7 +119,7 @@ export function Hero({ data }: { data?: any }) {
         <StarLayer
           count={1000}
           spread={100}
-          size={1.2}
+          size={1}
           baseSpeed={0.006}
           colorA="#ffffff"
           colorB="#a0c4ff"
@@ -153,7 +162,7 @@ export function Hero({ data }: { data?: any }) {
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 2 }}
-          className="text-white/60"
+          className="text-white/60 "
         >
           ↓ Scroll to discover more
         </motion.div>
