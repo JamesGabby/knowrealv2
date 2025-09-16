@@ -59,6 +59,9 @@ importers:
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      noisejs:
+        specifier: ^2.1.0
+        version: 2.1.0
       react:
         specifier: ^19.0.0
         version: 19.1.1
@@ -2030,6 +2033,9 @@ packages:
 
   node-releases@2.0.19:
     resolution: {integrity: sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==}
+
+  noisejs@2.1.0:
+    resolution: {integrity: sha512-sw39KaUS2YBta6apZ0/H+nnCsUyxT/ZRxgv/HnDxx6pWO2e2nUmWgLhpOaQdlxxkFepIpxDrlXy3fHVx0S3SLg==}
 
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
@@ -4761,6 +4767,8 @@ snapshots:
       - babel-plugin-macros
 
   node-releases@2.0.19: {}
+
+  noisejs@2.1.0: {}
 
   normalize-path@3.0.0: {}
 
