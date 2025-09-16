@@ -91,7 +91,7 @@ export default async function Dreams({ searchParams }: DreamsProps) {
           <div className="flex flex-col sm:flex-row gap-6 sm:items-center w-full">
             <SearchBox />
             <Link href="dreams/create">
-              <Button><Plus /></Button>
+              <Button><Plus />Create</Button>
             </Link>
             <LucidSwitch />
           </div>
