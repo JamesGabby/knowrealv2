@@ -15,8 +15,13 @@ import * as THREE from "three";
 import { useMemo, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useTexture } from "@react-three/drei";
-
 import { Noise } from "noisejs"; // procedural noise
+
+const sansation = Sansation({
+  weight: "700",
+  subsets: ["latin"],
+  fallback: ["mono"],
+});
 
 const noise = new Noise(Math.random()); // seed for randomness
 
@@ -84,12 +89,6 @@ function JaggedAsteroid({
   );
 }
 
-const sansation = Sansation({
-  weight: "700",
-  subsets: ["latin"],
-  fallback: ["mono"],
-});
-
 // 🌌 Procedural starfield layer
 function StarLayer({
   count,
@@ -145,75 +144,6 @@ function StarLayer({
         depthWrite={false}
       />
     </Points>
-  );
-}
-
-// 🪐 Planets with atmosphere glow
-function Planets({ count = 3 }) {
-  const planets = useMemo(() => {
-    return new Array(count).fill(null).map(() => ({
-      position: [
-        THREE.MathUtils.randFloatSpread(120),
-        THREE.MathUtils.randFloatSpread(120),
-        THREE.MathUtils.randFloat(-200, -60),
-      ] as [number, number, number],
-      size: THREE.MathUtils.randFloat(3, 8),
-      color: new THREE.Color().setHSL(Math.random(), 0.7, 0.5),
-    }));
-  }, [count]);
-
-  return (
-    <>
-      {planets.map((planet, i) => (
-        <group key={i} position={planet.position}>
-          <mesh rotation={[Math.random(), Math.random(), Math.random()]}>
-            <sphereGeometry args={[planet.size, 64, 64]} />
-            <meshStandardMaterial color={planet.color} roughness={1} />
-          </mesh>
-          {/* Atmosphere glow */}
-          <mesh>
-            <sphereGeometry args={[planet.size * 1.05, 64, 64]} />
-            <meshBasicMaterial
-              color={planet.color.clone().lerp(new THREE.Color("white"), 0.4)}
-              transparent
-              opacity={0.2}
-              side={THREE.BackSide}
-            />
-          </mesh>
-        </group>
-      ))}
-    </>
-  );
-}
-
-// Single Asteroid with animation
-function Asteroid({
-  position,
-  size,
-  rotationSpeed,
-}: {
-  position: [number, number, number];
-  size: number;
-  rotationSpeed: [number, number, number];
-}) {
-  const ref = useRef<THREE.Mesh>(null);
-
-  useFrame(() => {
-    if (ref.current) {
-      ref.current.rotation.x += rotationSpeed[0];
-      ref.current.rotation.y += rotationSpeed[1];
-      ref.current.rotation.z += rotationSpeed[2];
-
-      // tiny drifting motion
-      ref.current.position.x += Math.sin(performance.now() * 0.0001) * 0.0002;
-    }
-  });
-
-  return (
-    <mesh ref={ref} position={position}>
-      <icosahedronGeometry args={[size, 0]} />
-      <meshStandardMaterial color="#888" roughness={1} metalness={0.2} />
-    </mesh>
   );
 }
 
@@ -359,9 +289,6 @@ export function ShootingStars({ count = 6 }: { count?: number }) {
   );
 }
 
-
-
-
 // 🎥 Camera breathing + drag control
 function CameraController() {
   const { camera } = useThree();
@@ -429,8 +356,8 @@ export function Hero({ data }: { data?: any }) {
         <StarLayer count={4000} spread={300} size={0.7} baseSpeed={0.004} colorA="#ffffff" colorB="#ffd6ff" />
 
         {/* Space features */}
-        <Asteroids count={400} />
-        <ShootingStars count={5} />
+        <Asteroids count={100} />
+        <ShootingStars count={1} />
         
       </Canvas>
 
