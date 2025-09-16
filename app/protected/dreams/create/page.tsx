@@ -28,6 +28,10 @@ export default async function Create() {
 
     if (!user) redirect("/auth/login");
 
+    const dreamDateRaw = formData.get("dream_date_time") as string; // e.g. "2025-09-16T23:45"
+    const localDate = new Date(dreamDateRaw);
+    const dreamDate = localDate.toISOString(); // normalized for storage
+
     const dream = {
       user_id: user.id,
       title: formData.get("title"),
@@ -36,7 +40,7 @@ export default async function Create() {
       emotions: formData.get("emotions")?.toString().split(",").map(e => e.trim()),
       mood: formData.get("mood"),
       lucidity: formData.get("lucidity") === "on",
-      dream_date: formData.get("dream_date"),
+      dream_date_time: dreamDate,
     };
 
     const { error } = await supabase.from("dreams").insert(dream);
@@ -65,10 +69,10 @@ export default async function Create() {
                 <Input id="title" name="title" placeholder="A short title for your dream" required />
               </div>
 
-              {/* Date */}
+              {/* Date & Time */}
               <div className="flex flex-col gap-2">
-                <Label htmlFor="dream_date">Date</Label>
-                <Input id="dream_date" name="dream_date" type="date" required />
+                <Label htmlFor="dream_date_time">Date & Time</Label>
+                <Input id="dream_date_time" name="dream_date_time" type="datetime-local" required />
               </div>
 
               {/* Dream Content */}

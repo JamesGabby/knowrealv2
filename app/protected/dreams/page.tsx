@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import SearchBox from '@/components/search-box';
 import LucidSwitch from '@/components/lucid-switch';
 import Pagination from '@/components/pagination';
@@ -53,7 +53,7 @@ export default async function Dreams({ searchParams }: DreamsProps) {
     .from("dreams")
     .select("*", { count: "exact" })
     .eq("user_id", user.id)
-    .order("dream_date", { ascending: false });
+    .order("dream_date_time", { ascending: false });
 
   if (query) {
     supabaseQuery = supabaseQuery.or(
@@ -165,7 +165,7 @@ export default async function Dreams({ searchParams }: DreamsProps) {
                     </div>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    {format(new Date(dream.dream_date), "PPP")}
+                    {format(new Date(dream.dream_date_time), "PPP • p")}
                   </p>
                 </CardHeader>
 
