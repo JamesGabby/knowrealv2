@@ -346,7 +346,7 @@ export function Hero({ data }: { data?: any }) {
     <div className="relative flex flex-col items-center justify-center h-screen w-full overflow-hidden">
       <Canvas className="absolute inset-0" camera={{ position: [0, 0, 1], fov: 75 }}>
 
-        <ambientLight intensity={0.4} />
+        <ambientLight intensity={0.3} />
         <pointLight position={[20, 20, 20]} intensity={3} />
         <CameraController />
         
