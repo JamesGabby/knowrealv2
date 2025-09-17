@@ -9,7 +9,7 @@ import Pagination from '@/components/pagination';
 import Footer from '@/components/ui/footer';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Plus, Trash2 } from 'lucide-react';
+import { Frown, Meh, Pencil, Plus, Smile, Trash2 } from 'lucide-react';
 import { deleteDream } from '@/app/actions/delete-dream';
 import {
   AlertDialog,
@@ -81,6 +81,12 @@ export default async function Dreams({ searchParams }: DreamsProps) {
     return 'bg-blue-300';
   }
 
+  function dreamMoodEmote(mood: Mood) {
+    if (mood == 'positive') return <Smile size={18} />;
+    if (mood == 'negative') return <Frown size={18} />;
+    return <Meh size={18} />;
+  }
+
   return (
     <div className="flex-1 w-full flex flex-col gap-12 px-4 sm:px-6 lg:px-12">
       <div className="flex flex-col gap-2 items-start">
@@ -91,7 +97,7 @@ export default async function Dreams({ searchParams }: DreamsProps) {
           <div className="flex flex-col sm:flex-row gap-6 sm:items-center w-full">
             <SearchBox />
             <Link href="dreams/create">
-              <Button><Plus />Create</Button>
+              <Button><Plus />Add New</Button>
             </Link>
             <LucidSwitch />
           </div>
@@ -116,9 +122,12 @@ export default async function Dreams({ searchParams }: DreamsProps) {
                         <Badge
                           className={`relative inline-flex items-center justify-center p-[3px] overflow-hidden font-medium rounded-lg ${dreamMood(dream.mood)} pointer-events-none`}
                         >
-                          <span className="relative px-3 py-1 text-xs rounded-md bg-background text-foreground capitalize">
-                            {dream.mood}
+                          <span className="relative px-3 py-1 text-xs rounded-md bg-background text-foreground capitalize flex items-center gap-1">
+                            <div>{dream.mood}</div>
+                            <div>{dreamMoodEmote(dream.mood)}</div>
                           </span>
+                          
+
                         </Badge>
 
                         {dream.lucidity && (
@@ -128,6 +137,11 @@ export default async function Dreams({ searchParams }: DreamsProps) {
                             </span>
                           </Badge>
                         )}
+                      </div>
+                      <div className='inline-flex pl-2'>
+                        <Link href={`/protected/dreams/${dream.id}/edit`}>
+                          <Pencil size={14} color='limegreen' />
+                        </Link>
                       </div>
 
                       {/* 🗑️ Delete Dream Button */}
