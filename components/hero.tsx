@@ -356,8 +356,8 @@ export function Hero({ data }: { data?: any }) {
         <StarLayer count={4000} spread={300} size={0.7} baseSpeed={0.004} colorA="#ffffff" colorB="#ffd6ff" />
 
         {/* Space features */}
-        <Asteroids count={100} />
-        <ShootingStars count={1} />
+        <Asteroids count={50} />
+        <ShootingStars count={3} />
         
       </Canvas>
 
