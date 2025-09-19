@@ -7,15 +7,13 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   Points,
   PointMaterial,
-  Stars,
-  MeshDistortMaterial,
-  Sphere,
 } from "@react-three/drei";
 import * as THREE from "three";
 import { useMemo, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useTexture } from "@react-three/drei";
 import { Noise } from "noisejs"; // procedural noise
+import AsteroidField from "./3d/asteroids/asteroids";
 
 const sansation = Sansation({
   weight: "700",
@@ -29,16 +27,18 @@ function JaggedAsteroid({
   position,
   size,
   rotationSpeed,
+  seed,
 }: {
   position: [number, number, number];
   size: number;
   rotationSpeed: [number, number, number];
+  seed: number;
 }) {
   const ref = useRef<THREE.Mesh>(null);
 
-  // Generate jagged geometry once per asteroid
+  // Generate jagged geometry once in unit space with per-asteroid seed
   const geometry = useMemo(() => {
-    const geo = new THREE.IcosahedronGeometry(size, 4); // subdivide for detail
+    const geo = new THREE.IcosahedronGeometry(1, 4); // unit sphere
     const posAttr = geo.attributes.position;
 
     for (let i = 0; i < posAttr.count; i++) {
@@ -46,16 +46,16 @@ function JaggedAsteroid({
       const y = posAttr.getY(i);
       const z = posAttr.getZ(i);
 
-      // Sample noise field
-      const n = noise.perlin3(x * 0.8, y * 0.8, z * 0.8);
-      const factor = 1 + n * 0.35; // tweak bumpiness
+      // Apply unique seed offset per asteroid
+      const n = noise.perlin3(x * 0.8 + seed, y * 0.8 + seed, z * 0.8 + seed);
+      const factor = 1 + n * 0.35;
       posAttr.setXYZ(i, x * factor, y * factor, z * factor);
     }
 
     posAttr.needsUpdate = true;
     geo.computeVertexNormals();
     return geo;
-  }, [size]);
+  }, [seed]); // depend on seed
 
   // Load PBR textures
   const [colorMap, normalMap, roughnessMap, aoMap] = useTexture([
@@ -75,7 +75,8 @@ function JaggedAsteroid({
   });
 
   return (
-    <mesh ref={ref} position={position} geometry={geometry}>
+    <mesh ref={ref} position={position} scale={size}>
+      <primitive object={geometry} attach="geometry" />
       <meshStandardMaterial
         map={colorMap}
         normalMap={normalMap}
@@ -83,11 +84,12 @@ function JaggedAsteroid({
         aoMap={aoMap}
         metalness={0.1}
         roughness={0.9}
-        depthWrite={true} // make sure asteroids occlude stars
+        depthWrite
       />
     </mesh>
   );
 }
+
 
 // 🌌 Procedural starfield layer
 function StarLayer({
@@ -147,7 +149,6 @@ function StarLayer({
   );
 }
 
-// Asteroid field
 function Asteroids({ count = 300 }) {
   const asteroids = useMemo(() => {
     return new Array(count).fill(null).map(() => ({
@@ -162,6 +163,7 @@ function Asteroids({ count = 300 }) {
         Math.random() * 0.01,
         Math.random() * 0.01,
       ] as [number, number, number],
+      seed: Math.random() * 1000, // 🔑 unique seed
     }));
   }, [count]);
 
@@ -173,12 +175,12 @@ function Asteroids({ count = 300 }) {
           position={a.position}
           size={a.size}
           rotationSpeed={a.rotationSpeed}
+          seed={a.seed}
         />
       ))}
     </>
   );
 }
-
 
 /* Helpers */
 function randomStart() {
@@ -296,6 +298,12 @@ function CameraController() {
   const lastMouse = useRef({ x: 0, y: 0 });
   const rotation = useRef({ x: 0, y: 0 });
 
+  // limits (radians)
+  const MAX_Y = Math.PI / 4; // up/down limit (45°)
+  const MIN_Y = -Math.PI / 4;
+  const MAX_X = Math.PI / 3; // left/right limit (60°)
+  const MIN_X = -Math.PI / 3;
+
   useEffect(() => {
     const handleDown = (e: MouseEvent) => {
       isDragging.current = true;
@@ -310,8 +318,14 @@ function CameraController() {
       if (!isDragging.current) return;
       const dx = (e.clientX - lastMouse.current.x) * 0.002;
       const dy = (e.clientY - lastMouse.current.y) * 0.002;
+
       rotation.current.x += dx;
       rotation.current.y += dy;
+
+      // clamp values
+      rotation.current.x = Math.max(MIN_X, Math.min(MAX_X, rotation.current.x));
+      rotation.current.y = Math.max(MIN_Y, Math.min(MAX_Y, rotation.current.y));
+
       lastMouse.current = { x: e.clientX, y: e.clientY };
     };
 
@@ -341,23 +355,24 @@ function CameraController() {
   return null;
 }
 
+
 export function Hero({ data }: { data?: any }) {
   return (
     <div className="relative flex flex-col items-center justify-center h-screen w-full overflow-hidden">
-      <Canvas className="absolute inset-0" camera={{ position: [0, 0, 1], fov: 75 }}>
+      <Canvas className="absolute inset-0 bg-black" camera={{ position: [0, 0, 1], fov: 75 }}>
 
         <ambientLight intensity={0.3} />
-        <pointLight position={[20, 20, 20]} intensity={3} />
+        <pointLight position={[20, 20, 20]} intensity={1} />
         <CameraController />
         
 
         {/* Depth starfield */}
         <StarLayer count={100000} spread={600} size={0.15} baseSpeed={0.006} colorA="#a0c4ff" colorB="#ffcad4" />
-        <StarLayer count={4000} spread={300} size={0.7} baseSpeed={0.004} colorA="#ffffff" colorB="#ffd6ff" />
+        <StarLayer count={8000} spread={300} size={0.7} baseSpeed={0.004} colorA="#ffffff" colorB="#ffd6ff" />
 
         {/* Space features */}
-        <Asteroids count={50} />
-        <ShootingStars count={3} />
+        <AsteroidField />
+        <ShootingStars count={6} />
         
       </Canvas>
 
@@ -370,11 +385,11 @@ export function Hero({ data }: { data?: any }) {
       >
         <div className="absolute inset-0 bg-gradient-radial from-black/70 via-black/30 to-transparent blur-3xl -z-10" />
         <h1
-          className={`${sansation.className} text-5xl lg:text-7xl tracking-wide bg-gradient-to-r from-indigo-300 via-pink-300 to-purple-400 bg-clip-text text-transparent`}
+          className={`${sansation.className} text-5xl lg:text-7xl tracking-wide`}
         >
           KNOW REAL
         </h1>
-        <p className="text-lg lg:text-2xl leading-tight max-w-xl text-white/90">
+        <p className="text-lg lg:text-2xl leading-tight max-w-xl">
           <code>
             Get to <span className="font-bold">know</span> reality.
           </code>
