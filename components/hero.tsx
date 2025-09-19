@@ -367,12 +367,12 @@ export function Hero({ data }: { data?: any }) {
         
 
         {/* Depth starfield */}
-        <StarLayer count={100000} spread={600} size={0.15} baseSpeed={0.006} colorA="#a0c4ff" colorB="#ffcad4" />
+        <StarLayer count={150000} spread={600} size={0.15} baseSpeed={0.006} colorA="#a0c4ff" colorB="#ffcad4" />
         <StarLayer count={8000} spread={300} size={0.7} baseSpeed={0.004} colorA="#ffffff" colorB="#ffd6ff" />
 
         {/* Space features */}
         <AsteroidField />
-        <ShootingStars count={6} />
+        <ShootingStars count={2} />
         
       </Canvas>
 
