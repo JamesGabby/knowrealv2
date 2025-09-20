@@ -372,7 +372,7 @@ export function Hero({ data }: { data?: any }) {
 
         {/* Space features */}
         <AsteroidField />
-        <ShootingStars count={2} />
+        <ShootingStars count={4} />
         
       </Canvas>
 
@@ -384,15 +384,11 @@ export function Hero({ data }: { data?: any }) {
         className="relative z-10 flex flex-col items-center text-center gap-8 px-6"
       >
         <div className="absolute inset-0 bg-gradient-radial from-black/70 via-black/30 to-transparent blur-3xl -z-10" />
-        <h1
-          className={`${sansation.className} text-5xl lg:text-7xl tracking-wide`}
-        >
+        <h1 className={`${sansation.className} text-5xl lg:text-7xl tracking-wide`}>
           KNOW REAL
         </h1>
         <p className="text-lg lg:text-2xl leading-tight max-w-xl">
-          <code>
-            Get to <span className="font-bold">know</span> reality.
-          </code>
+          Get to know reality.
         </p>
         <Link
           href={data ? "/protected" : "/auth/login"}
