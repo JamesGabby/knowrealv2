@@ -387,8 +387,8 @@ export function Hero({ data }: { data?: any }) {
         <h1 className={`${sansation.className} text-5xl lg:text-7xl tracking-wide`}>
           KNOW REAL
         </h1>
-        <p className="text-lg lg:text-2xl leading-tight max-w-xl">
-          Get to know reality.
+        <p className="text-md lg:text-lg leading-tight max-w-xl">
+          <code>Get to know reality.</code>
         </p>
         <Link
           href={data ? "/protected" : "/auth/login"}

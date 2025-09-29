@@ -3,7 +3,6 @@
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import useWindowWidth from "@/hooks/use-window-width";
 
 export function LogoutButton() {
   const router = useRouter();

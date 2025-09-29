@@ -117,13 +117,12 @@ export default async function Dreams({ searchParams }: DreamsProps) {
                       {dream.title}
                     </CardTitle>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-between w-full">
                       <div className="flex flex-wrap gap-2">
                         <Badge
                           className={`relative inline-flex items-center justify-center p-[3px] overflow-hidden font-medium rounded-lg ${dreamMood(dream.mood)} pointer-events-none`}
                         >
                           <span className="relative px-3 py-1 text-xs rounded-md bg-background text-foreground capitalize flex items-center gap-1">
-                            <div>{dream.mood}</div>
                             <div>{dreamMoodEmote(dream.mood)}</div>
                           </span>
                         </Badge>
@@ -136,44 +135,47 @@ export default async function Dreams({ searchParams }: DreamsProps) {
                           </Badge>
                         )}
                       </div>
-                      <div className='inline-flex pl-2'>
+                      {/* Right side actions */}
+                      <div className="flex items-center gap-2">
+                        {/* ✏️ Edit Button */}
                         <Link href={`/protected/dreams/${dream.id}/edit`}>
-                          <Pencil size={14} color='limegreen' />
-                        </Link>
-                      </div>
-
-                      {/* 🗑️ Delete Dream Button */}
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="text-red-500 hover:text-red-700"
-                          >
-                            <Trash2 size={16} />
+                          <Button variant="outline" className="flex items-center gap-1">
+                            <Pencil size={0} />
                           </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Delete this dream?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              This action cannot be undone. This will permanently
-                              delete your dream from our database.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <form action={deleteDream.bind(null, dream.id)}>
-                              <AlertDialogAction
-                                type="submit"
-                                className="bg-red-600 text-white hover:bg-red-700"
-                              >
-                                Delete
-                              </AlertDialogAction>
-                            </form>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
+                        </Link>
+
+                        {/* 🗑️ Delete Button */}
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              variant="destructive"
+                              className="flex items-center gap-1"
+                            >
+                              <Trash2 size={6} />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Delete this dream?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                This action cannot be undone. This will permanently
+                                delete your dream from our database.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <form action={deleteDream.bind(null, dream.id)}>
+                                <AlertDialogAction
+                                  type="submit"
+                                  className="bg-red-600 text-white hover:bg-red-700 w-full"
+                                >
+                                  Delete
+                                </AlertDialogAction>
+                              </form>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
                     </div>
                   </div>
                   <p className="text-xs text-muted-foreground">
