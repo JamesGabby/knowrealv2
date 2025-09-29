@@ -93,9 +93,6 @@ export default function DashboardNavbar() {
             {/* Menu Items */}
             <div className="flex flex-col items-center justify-center flex-1 space-y-8 text-xl">
               {navItems.map(({ href, label, icon: Icon }) => {
-                console.log("href:",href);
-                console.log("pathname:",pathname);
-                console.log("split edit:", pathname.split('/')[4]);
                 const isActive = href === pathname || href.includes('dreams') && pathname.includes('dreams')
                 return (
                   <Link
