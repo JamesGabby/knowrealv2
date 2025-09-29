@@ -3,6 +3,13 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { InfoIcon } from "lucide-react";
 import { FetchDataSteps } from "@/components/tutorial/fetch-data-steps";
+import { Sansation } from "next/font/google";
+
+const sansation = Sansation({
+  weight: "700",
+  subsets: ["latin"],
+  fallback: ["mono"],
+});
 
 export default async function ProtectedPage() {
   const supabase = await createClient();
@@ -22,7 +29,7 @@ export default async function ProtectedPage() {
         </div>
       </div>
       <div className="flex flex-col gap-2 items-start">
-        <h2 className="font-bold text-2xl mb-4">Your user details</h2>
+        <h2 className="font-bold text-2xl mb-4">Welcome to <span className={`${sansation.className}`}>KNOW REAL</span></h2>
         <pre className="text-xs font-mono p-3 rounded border max-h-32 overflow-auto">
           {JSON.stringify(data.claims, null, 2)}
         </pre>
