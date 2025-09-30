@@ -82,9 +82,9 @@ export default async function Dreams({ searchParams }: DreamsProps) {
   }
 
   function dreamMoodEmote(mood: Mood) {
-    if (mood == 'positive') return <Smile size={18} />;
-    if (mood == 'negative') return <Frown size={18} />;
-    return <Meh size={18} />;
+    if (mood == 'positive') return <Smile size={18} color='lightgreen' />;
+    if (mood == 'negative') return <Frown size={18} color='red' />;
+    return <Meh size={18} color='lightblue' />;
   }
 
   return (
@@ -122,13 +122,13 @@ export default async function Dreams({ searchParams }: DreamsProps) {
                         <Badge
                           className={`relative inline-flex items-center justify-center p-[3px] overflow-hidden font-medium rounded-lg ${dreamMood(dream.mood)} pointer-events-none`}
                         >
-                          <span className="relative px-3 py-1 text-xs rounded-md bg-background text-foreground capitalize flex items-center gap-1">
+                          <span className="relative px-2 py-1 text-xs rounded-md bg-background text-foreground capitalize flex items-center gap-1">
                             <div>{dreamMoodEmote(dream.mood)}</div>
                           </span>
                         </Badge>
 
                         {dream.lucidity && (
-                          <Badge className="relative inline-flex items-center justify-center p-[3px] overflow-hidden font-medium rounded-lg bg-[length:300%_300%] bg-gradient-to-r from-pink-500 via-yellow-500 to-cyan-500 animate-gradient-border">
+                          <Badge className="relative inline-flex items-center justify-center p-[4px] overflow-hidden font-medium rounded-lg bg-[length:300%_300%] bg-gradient-to-r from-pink-500 via-yellow-500 to-cyan-500 animate-gradient-border">
                             <span className="relative px-3 py-1 rounded-md bg-gray-900 text-white">
                               Lucid
                             </span>
