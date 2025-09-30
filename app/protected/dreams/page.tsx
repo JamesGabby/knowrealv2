@@ -83,7 +83,7 @@ export default async function Dreams({ searchParams }: DreamsProps) {
 
   function dreamMoodEmote(mood: Mood) {
     if (mood == 'positive') return <Smile size={18} color='lightgreen' />;
-    if (mood == 'negative') return <Frown size={18} color='red' />;
+    if (mood == 'negative') return <Frown size={18} color='orange' />;
     return <Meh size={18} color='lightblue' />;
   }
 
