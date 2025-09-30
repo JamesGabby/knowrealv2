@@ -99,6 +99,7 @@ export default {
         },
       },
       animation: {
+        'spin-slow': 'spin 20s linear infinite', // super slow shimmer
         "gradient-border": "gradient-border 6s linear infinite",
         glow: "glow 6s ease-in-out infinite", // synced timing
         "button-glow": "button-glow 6s ease-in-out infinite", // synced timing

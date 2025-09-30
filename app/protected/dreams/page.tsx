@@ -22,6 +22,7 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
+import AIModeButton from '@/components/rainbow-button';
 
 type DreamsProps = {
   searchParams: { page?: string; q?: string; lucid?: string }
@@ -128,11 +129,8 @@ export default async function Dreams({ searchParams }: DreamsProps) {
                         </Badge>
 
                         {dream.lucidity && (
-                          <Badge className="relative inline-flex items-center justify-center p-[4px] overflow-hidden font-medium rounded-lg bg-[length:300%_300%] bg-gradient-to-r from-pink-500 via-yellow-500 to-cyan-500 animate-gradient-border">
-                            <span className="relative px-3 py-1 rounded-md bg-gray-900 text-white">
-                              Lucid
-                            </span>
-                          </Badge>
+                          <AIModeButton />
+
                         )}
                       </div>
                       {/* Right side actions */}
