@@ -139,7 +139,7 @@ export default async function Dreams({ searchParams }: DreamsProps) {
                       <div className="flex items-center gap-2">
                         {/* ✏️ Edit Button */}
                         <Link href={`/protected/dreams/${dream.id}/edit`}>
-                          <Button variant="outline" className="flex items-center gap-1">
+                          <Button variant="outline" className="flex items-center gap-1 h-7 w-7">
                             <Pencil size={0} />
                           </Button>
                         </Link>
@@ -149,7 +149,7 @@ export default async function Dreams({ searchParams }: DreamsProps) {
                           <AlertDialogTrigger asChild>
                             <Button
                               variant="destructive"
-                              className="flex items-center gap-1"
+                              className="flex items-center gap-1 h-7 w-7"
                             >
                               <Trash2 size={6} />
                             </Button>
