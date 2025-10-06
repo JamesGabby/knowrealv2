@@ -1,6 +1,12 @@
 'use client'
 
 import { useEffect, useState } from "react";
+import { Sansation } from "next/font/google";
+const sansation = Sansation({
+  weight: "700",
+  subsets: ["latin"],
+  fallback: ["mono"],
+});
 
 export default function AIModeButton() {
   const [angle, setAngle] = useState(0);
@@ -59,7 +65,7 @@ export default function AIModeButton() {
             animation: "shimmer 2.5s infinite",
           }}
         />
-        <span className="relative z-10">Lucid</span>
+        <span className={`relative z-10 ${sansation.className}`}>LUCID</span>
       </button>
 
       <style jsx>{`
