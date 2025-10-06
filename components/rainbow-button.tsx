@@ -31,14 +31,14 @@ export default function AIModeButton() {
   return (
     <div
       style={wrapperStyle}
-      className="inline-flex rounded-full"
+      className="inline-flex rounded-full relative overflow-hidden"
     >
       <button
         type="button"
         aria-pressed="false"
-        aria-label="Lucid "
+        aria-label="Lucid"
         className={`
-          inline-flex items-center justify-center
+          relative inline-flex items-center justify-center
           h-[28px] px-[12px]
           rounded-full
           bg-black text-white
@@ -46,10 +46,32 @@ export default function AIModeButton() {
           cursor-pointer
           focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-blue-300
           transition-colors duration-150
+          overflow-hidden
         `}
       >
-        Lucid
+        {/* shimmer overlay */}
+        <span
+          className="absolute inset-0 opacity-40"
+          style={{
+            background:
+              "linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.4) 40%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0.4) 60%, transparent 100%)",
+            backgroundSize: "200% 100%",
+            animation: "shimmer 2.5s infinite",
+          }}
+        />
+        <span className="relative z-10">Lucid</span>
       </button>
+
+      <style jsx>{`
+        @keyframes shimmer {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
+        }
+      `}</style>
     </div>
   );
 }
