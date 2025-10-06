@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 import SearchBox from '@/components/search-box';
 import LucidSwitch from '@/components/lucid-switch';
 import Pagination from '@/components/pagination';
@@ -23,19 +23,21 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import AIModeButton from '@/components/rainbow-button';
+import MoodFilter from '@/components/mood-filter';
+
 
 type DreamsProps = {
-  searchParams: { page?: string; q?: string; lucid?: string }
+  searchParams: { page?: string; q?: string; lucid?: string; mood?: string }
 };
 
 export default async function Dreams({ searchParams }: DreamsProps) {
   const supabase = await createClient();
-
   const params = await searchParams;
 
   const lucid = params.lucid === "true";
   const query = params.q?.trim() ?? "";
   const page = parseInt(params.page ?? "1", 10);
+  const mood = params.mood?.trim() ?? ""; // 🆕 new param
 
   const {
     data: { user },
@@ -66,6 +68,11 @@ export default async function Dreams({ searchParams }: DreamsProps) {
     supabaseQuery = supabaseQuery.eq("lucidity", true);
   }
 
+  // 🆕 Mood filtering
+  if (mood) {
+    supabaseQuery = supabaseQuery.eq("mood", mood);
+  }
+
   const { data: dreams, error: dreamsError, count } = await supabaseQuery.range(from, to);
 
   if (dreamsError) {
@@ -93,18 +100,19 @@ export default async function Dreams({ searchParams }: DreamsProps) {
       <div className="flex flex-col gap-2 items-start">
         <h2 className="font-bold text-2xl mb-4 mt-10">Your Dreams</h2>
 
-        {/* 🔎 Search Bar + Lucid Filter + Add Dream */}
+        {/* 🔎 Search + Lucid + Mood Filter + Add */}
         <div className="w-full mb-6 flex flex-col sm:flex-row gap-6 sm:items-center sm:justify-between">
           <div className="flex flex-col sm:flex-row gap-6 sm:items-center w-full">
             <SearchBox />
+            <MoodFilter />
+            <LucidSwitch />
             <Link href="dreams/create">
               <Button><Plus />Add New</Button>
             </Link>
-            <LucidSwitch />
           </div>
         </div>
 
-        {/* Grid of dreams */}
+        {/* 🌙 Dreams Grid */}
         <div className="grid gap-6 w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
           {dreams.length > 0 ? (
             dreams.map((dream) => (
@@ -127,16 +135,14 @@ export default async function Dreams({ searchParams }: DreamsProps) {
                           <AIModeButton />
                         )}
                       </div>
-                      {/* Right side actions */}
+
                       <div className="flex items-center gap-2">
-                        {/* ✏️ Edit Button */}
                         <Link href={`/protected/dreams/${dream.id}/edit`}>
                           <Button variant="outline" className="flex items-center gap-1 h-7 w-7">
                             <Pencil size={0} />
                           </Button>
                         </Link>
 
-                        {/* 🗑️ Delete Button */}
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
                             <Button
@@ -150,8 +156,7 @@ export default async function Dreams({ searchParams }: DreamsProps) {
                             <AlertDialogHeader>
                               <AlertDialogTitle>Delete this dream?</AlertDialogTitle>
                               <AlertDialogDescription>
-                                This action cannot be undone. This will permanently
-                                delete your dream from our database.
+                                This action cannot be undone.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
@@ -180,7 +185,6 @@ export default async function Dreams({ searchParams }: DreamsProps) {
                     {dream.content}
                   </p>
 
-                  {/* Emotions */}
                   <div className="mt-4 flex flex-col gap-2">
                     <span className="text-xs text-muted-foreground">Emotions</span>
                     {dream.emotions ? (
@@ -217,13 +221,14 @@ export default async function Dreams({ searchParams }: DreamsProps) {
         </div>
       </div>
 
-      {/* 🔄 Pagination Controls */}
+      {/* 🔄 Pagination */}
       {totalPages > 1 && (
         <Pagination
           page={page}
           totalPages={totalPages}
           query={query}
           lucid={lucid}
+          mood={mood} // 🆕 pass along
         />
       )}
       <Footer />

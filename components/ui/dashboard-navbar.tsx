@@ -45,7 +45,7 @@ export default function DashboardNavbar() {
                 key={href}
                 href={href}
                 className={`flex items-center space-x-1 text-sm font-medium transition-colors ${
-                  isActive ? "text-indigo-400" : "hover:text-gray-300"
+                  isActive ? "text-indigo-300" : "hover:text-gray-300"
                 }`}
               >
                 <Icon className="w-4 h-4" />
