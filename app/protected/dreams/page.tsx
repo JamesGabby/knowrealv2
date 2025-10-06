@@ -84,7 +84,7 @@ export default async function Dreams({ searchParams }: DreamsProps) {
 
   function dreamMoodEmote(mood: Mood) {
     if (mood == 'positive') return <Smile size={18} color='lightgreen' />;
-    if (mood == 'negative') return <Frown size={18} color='orange' />;
+    if (mood == 'negative') return <Frown size={18} color='red' />;
     return <Meh size={18} color='lightblue' />;
   }
 
@@ -120,17 +120,11 @@ export default async function Dreams({ searchParams }: DreamsProps) {
 
                     <div className="flex items-center justify-between w-full">
                       <div className="flex flex-wrap gap-2">
-                        <Badge
-                          className={`relative inline-flex items-center justify-center p-[3px] overflow-hidden font-medium rounded-lg ${dreamMood(dream.mood)} pointer-events-none`}
-                        >
-                          <span className="relative px-2 py-1 text-xs rounded-md bg-background text-foreground capitalize flex items-center gap-1">
-                            <div>{dreamMoodEmote(dream.mood)}</div>
-                          </span>
+                        <Badge className={`inline-flex items-center gap-1 px-1 py-1 text-xs font-medium rounded-md bg-transparent`}>
+                          {dreamMoodEmote(dream.mood)}
                         </Badge>
-
                         {dream.lucidity && (
                           <AIModeButton />
-
                         )}
                       </div>
                       {/* Right side actions */}
