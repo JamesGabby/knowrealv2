@@ -128,7 +128,7 @@ export default async function Dreams({ searchParams }: DreamsProps) {
 
                     <div className="flex items-center justify-between w-full">
                       <div className="flex flex-wrap gap-2">
-                        <Badge className={`inline-flex items-center bg-transparent`}>
+                        <Badge className={`inline-flex items-center bg-transparent p-1`}>
                           {dreamMoodEmote(dream.mood)}
                         </Badge>
                         {dream.lucidity && (

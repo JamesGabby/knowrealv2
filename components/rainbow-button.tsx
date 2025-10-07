@@ -14,7 +14,7 @@ export default function AIModeButton() {
   useEffect(() => {
     let rafId: number;
     const step = () => {
-      setAngle((a) => (a + 0.2) % 360);
+      setAngle((a) => (a + 0.36) % 360);
       rafId = requestAnimationFrame(step);
     };
     rafId = requestAnimationFrame(step);
@@ -45,7 +45,7 @@ export default function AIModeButton() {
         aria-label="Lucid"
         className={`
           relative inline-flex items-center justify-center
-          h-[28px] px-[12px]
+          h-[24] px-[12px]
           rounded-full
           bg-black text-white
           font-[500] text-[12px] leading-[20px] font-sans

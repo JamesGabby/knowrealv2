@@ -39,7 +39,7 @@ export default function DashboardNavbar() {
       {width && width >= 710 && (
         <div className="flex items-center space-x-6">
           {navItems.map(({ href, label, icon: Icon }) => {
-            const isActive = href === pathname || href + "/create" === pathname
+            const isActive = href === pathname || href.includes('/dreams') && pathname.includes('/dreams')
             return (
               <Link
                 key={href}
