@@ -48,7 +48,7 @@ export default function AIModeButton() {
           h-[28px] px-[12px]
           rounded-full
           bg-black text-white
-          font-[500] text-[14px] leading-[20px] font-sans
+          font-[500] text-[12px] leading-[20px] font-sans
           cursor-pointer
           focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-blue-300
           transition-colors duration-150
