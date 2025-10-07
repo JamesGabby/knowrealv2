@@ -112,7 +112,7 @@ export default async function Dreams({ searchParams }: DreamsProps) {
           </div>
         </div>
 
-        {/* 🌙 Dreams Grid */}
+        {/* Dreams Grid */}
         <div className="grid gap-6 w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
           {dreams.length > 0 ? (
             dreams.map((dream) => (

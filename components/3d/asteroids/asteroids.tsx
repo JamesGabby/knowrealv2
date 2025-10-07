@@ -136,7 +136,7 @@ export default function AsteroidField() {
     <>
       <ambientLight intensity={0.3} />
       <directionalLight position={[20, 20, 10]} intensity={5} />
-      <InstancedAsteroids count={50} />
+      <InstancedAsteroids count={100} />
       <OrbitControls />
     </>
   );
