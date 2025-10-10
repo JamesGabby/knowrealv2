@@ -8,7 +8,7 @@ const sansation = Sansation({
   fallback: ["mono"],
 });
 
-export default function AIModeButton() {
+export default function RainbowButton() {
   const [angle, setAngle] = useState(0);
 
   useEffect(() => {

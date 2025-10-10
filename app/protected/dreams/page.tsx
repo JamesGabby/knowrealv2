@@ -22,7 +22,7 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
-import AIModeButton from '@/components/rainbow-button';
+import RainbowButton from '@/components/rainbow-button';
 import MoodFilter from '@/components/mood-filter';
 
 
@@ -132,7 +132,7 @@ export default async function Dreams({ searchParams }: DreamsProps) {
                           {dreamMoodEmote(dream.mood)}
                         </Badge>
                         {dream.lucidity && (
-                          <AIModeButton />
+                          <RainbowButton />
                         )}
                       </div>
 
