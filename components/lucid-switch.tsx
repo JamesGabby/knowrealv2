@@ -33,7 +33,7 @@ export default function LucidSwitch() {
       />
       <label
         htmlFor="lucid-switch"
-        className="text-sm font-medium text-foreground cursor-pointer select-none"
+        className="text-sm font-medium text-foreground select-none"
       >
         lucid
       </label>
