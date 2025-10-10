@@ -13,10 +13,10 @@ const sansation = Sansation({ weight: "700", subsets: ["latin"], fallback: ["mon
 
 const navItems = [
   { href: "/protected", label: "Home", icon: Home },
-  { href: "/protected/dreams", label: "Dreams", icon: MoonStar },
   { href: "/protected/meditation", label: "Meditation", icon: Brain },
+  { href: "/protected/dreams", label: "Dreams", icon: MoonStar },
   { href: "/protected/obe", label: "OBE", icon: UsersRound },
-  { href: "/protected/info", label: "Info", icon: Info },
+  // { href: "/protected/info", label: "Info", icon: Info },
 ]
 
 export default function DashboardNavbar() {
